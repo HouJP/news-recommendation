@@ -1,6 +1,6 @@
 ****
 
-##<center>基于cosine相似度的新闻推荐</center>
+##<center>新华社新闻推荐项目</center>
 ####<center>E-mail: houjp1992@gmail.com</center>
 
 ****
