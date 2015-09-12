@@ -1,6 +1,6 @@
 ****
 
-##<center>新华社新闻推荐项目</center>
+##<center>新华社新闻推荐系统</center>
 ####<center>E-mail: houjp1992@gmail.com</center>
 
 ****
