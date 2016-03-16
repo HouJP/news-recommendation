@@ -1,6 +1,6 @@
 ****
 
-##<center>新华社新闻推荐系统</center>
+##<center>新华社推荐系统</center>
 ####<center>E-mail: houjp1992@gmail.com</center>
 
 ****
@@ -51,7 +51,7 @@
 		*	根据当前日期执行增量式的离线计算，并重启在线服务
 		*	记录日志到 log/
 
-*	查询请求：
+*	`新闻推荐`查询请求：
 
 ```
 curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"uid":"1000000142","doc_id":"01793009222687981568","content":"我们 交通","count":3}' "http://10.100.1.50:8124/golaxy/news/recommend"
@@ -59,7 +59,7 @@ curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -
 curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"uid":"1000000142","doc_id":"01793009222687981568","content":"我们 交通","count":3}' "http://10.100.1.50:8124/golaxy/oversea_news/recommend"
 ```
 
-*	更新请求：
+*	`新闻推荐`更新请求：
 
 ```
 // 注意两条命令的url是不同的
@@ -69,10 +69,28 @@ curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -
 curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"dir":"/user/lihb/oversea_news_doc","filename":"candidate_news_0.txt"}' "http://10.100.1.50:8124/golaxy/oversea_news/update"
 ```
 
-* 	停止服务：
+* 	`新闻推荐`停止服务：
 
 ```
 curl -X POST "http://10.100.1.50:8124/stop"
+```
+
+*	`关键词推荐`查询请求：
+
+```
+curl -X POST -H "Content-Type:application/json" -H "Accept:application/json" -d '{"words":"李世石"}' "http://10.100.1.50:8488/golaxy/recommend/key-words"
+```
+
+*	`事件推荐`查询请求：
+
+```
+curl -X POST -H "Content-Type:application/json" -H "Accept:application/json" -d '{"uid":"132531345"}' "http://10.100.1.50:8488/golaxy/recommend/events"
+```
+
+*	`关键词推荐`和`事件推荐`停止服务：
+
+```
+curl -X POST "http://10.100.1.50:8488/golaxy/recommend/stop"
 ```
 
 ****
@@ -97,6 +115,11 @@ curl -X POST "http://10.100.1.50:8124/stop"
 ****
 
 ###<a name="version">版本更新</a>
+
+* 	2016/03/16
+	*	重新设计程序框架
+	*	添加`关键词推荐`功能
+	*	添加`事件推荐`功能
 
 *	2015/08/26
 	*	添加`bin/merge.sh`

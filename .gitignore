@@ -2,3 +2,4 @@ target/*
 project/target/*
 project/project/target/*
 .idea/*
+data/
