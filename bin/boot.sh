@@ -6,18 +6,12 @@
 #########################################################################
 #! /bin/bash
 
+# 加载配置文件
 PATH_PRE=`pwd`
 PATH_NOW=`dirname $0`
 cd ${PATH_PRE}
-# source something
+../conf/conf.sh
 cd ${PATH_NOW}
-
-MASTER=spark://golaxy50:7077
-JAR_PT=/home/houjp/recommendation/jar/recommendation.jar
-SPARK_HOME=/opt/spark/
-SPARK_CORES_MAX=3
-SPARK_EXECUTOR_MEMORY=5g
-SPARK_DRIVER_MEMORY=5g
 
 function submit() {
 	local date=$1
@@ -35,43 +29,38 @@ function submit() {
 	return $?
 }
 
+function runJob() {
+	local date=$1
+	local class=$2
+
+	submit $date $class
+	if [ 0 -ne $? ]; then
+		echo "[ERROR] run class($class), date($date) meet error!"
+		return 255
+	else
+		echo "[INFO] run class($class), date($date) success."
+	fi
+}
+
 function run() {
 	local date=$1
 	local class=
 
 	# offline processor of key word recommendation
 	class="com.bda.recommendation.keywords.KeyWordsOfflineProcessor"
-	submit $date $class
-	if [ 0 -ne $? ]; then
-		echo "[ERROR] run $class meet error!"
-		return 255
-	else
-		echo "[INFO] run $class success."
-	fi
+	runJob $date $class
 
 	# offline processor of events recommendation
 	class="com.bda.recommendation.events.EventsOfflineProcessor"
-	submit $date $class
-	if [ 0 -ne $? ]; then
-		echo "[ERROR] run $class meet error!"
-		return 255
-	else
-		echo "[INFO] run $class success."
-	fi
+	runJob $date $class
 
 	# boot service
 	class="com.bda.recommendation.service.Boot"
-	submit $date $class
-	if [ 0 -ne $? ]; then
-		echo "[ERROR] run $class meet error"
-		return 255
-	else
-		echo "[INFO] run $class success."
-	fi
+	runJob $date $class
 }
 
 if [ 1 -ne $# ]; then
-	echo "[ERROR] ./run.sh <date>"
+	echo "Usage: run.sh <date>"
 	exit 1
 fi
 

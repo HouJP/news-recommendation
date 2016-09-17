@@ -9,14 +9,8 @@
 PATH_PRE="`pwd`"
 PATH_NOW="`dirname $0`"
 cd ${PATH_NOW}
-# source something
+source ../conf/conf.sh
 cd ${PATH_PRE}
-
-PROJECT_DIR="/home/houjp/recommendation/"
-LOG_DIR=${PROJECT_DIR}/log/
-
-HOST="10.100.1.50"
-PORT="8488"
 
 function shut() {
 	curl -X POST http://${HOST}:${PORT}/golaxy/recommend/stop
