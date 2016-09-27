@@ -7,8 +7,10 @@
 #! /bin/bash
 
 # Project 配置
-PROJECT_DIR="/home/houjp/recommendation/"
+PROJECT_DIR="/home/recommendation/"
 LOG_DIR=${PROJECT_DIR}/log/
+# Jar 配置
+JAR_PT=${PROJECT_DIR}/target/scala-2.10/NewsRecommendation-assembly-1.0.jar
 
 # Service 配置
 HOST="10.100.1.50"
@@ -21,5 +23,3 @@ SPARK_CORES_MAX=1
 SPARK_EXECUTOR_MEMORY=5g
 SPARK_DRIVER_MEMORY=5g
 
-# Jar 配置
-JAR_PT=/home/houjp/recommendation/jar/recommendation.jar

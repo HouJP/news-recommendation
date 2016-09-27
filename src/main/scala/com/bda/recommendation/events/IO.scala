@@ -47,19 +47,19 @@ object IO {
     }
   }
 
-  def loadUserInfo(sc: SparkContext, date: String): RDD[(String, Map[String, Int])] = {
+  def loadUserInfo(sc: SparkContext, date: String): RDD[(String, Map[String, Double])] = {
     val fp = s"${com.bda.recommendation.evt_out_pt}/$date.user.obj"
 
     if (FileOpts.checkFile(fp)) {
       Log.log("INFO", s"Detected $fp")
-      sc.objectFile[(String, Map[String, Int])](fp)
+      sc.objectFile[(String, Map[String, Double])](fp)
     } else {
       Log.log("INFO", s"Do not detected $fp")
-      sc.parallelize(Seq[(String, Map[String, Int])]())
+      sc.parallelize(Seq[(String, Map[String, Double])]())
     }
   }
 
-  def saveUserInfo(user_info: RDD[(String, Map[String, Int])], date: String): Unit = {
+  def saveUserInfo(user_info: RDD[(String, Map[String, Double])], date: String): Unit = {
     user_info.saveAsObjectFile(s"${com.bda.recommendation.evt_out_pt}/$date.user.obj")
   }
 

@@ -60,39 +60,39 @@ object EventsOfflineProcessor {
 
   def addUserInfo(sc: SparkContext,
                   user_view: RDD[(String, String)],
-                  user_info: RDD[(String, Map[String, Int])]): RDD[(String, Map[String, Int])] = {
+                  user_info: RDD[(String, Map[String, Double])]): RDD[(String, Map[String, Double])] = {
 
     val new_user_info = user_view.flatMap {
       case (uid: String, kws: String) =>
-        kws.split(" ").filter(! _.isEmpty).map(e => ((uid, e), 1))
+        kws.split(" ").filter(! _.isEmpty).map(e => ((uid, e), 1.0D))
     }.reduceByKey(_+_).map {
-      case ((uid: String, w: String), n: Int) =>
+      case ((uid: String, w: String), n: Double) =>
         (uid, Seq((w, n)))
     }.reduceByKey(_++_).map {
-      case (uid: String, cnt: Seq[(String, Int)]) =>
+      case (uid: String, cnt: Seq[(String, Double)]) =>
         (uid, cnt.toMap)
     }
 
     (new_user_info ++ user_info).reduceByKey {
-      (cnt_1: Map[String, Int], cnt_2: Map[String, Int]) =>
-        val cnt = mutable.Map[String, Int]()
+      (cnt_1: Map[String, Double], cnt_2: Map[String, Double]) =>
+        val cnt = mutable.Map[String, Double]()
         cnt_1.foreach {
-          case (w: String, n: Int) =>
-            cnt(w) = cnt.getOrElse(w, 0) + n
+          case (w: String, n: Double) =>
+            cnt(w) = cnt.getOrElse(w, 0.0D) + n
         }
         cnt_2.foreach {
-          case (w: String, n: Int) =>
-            cnt(w) = cnt.getOrElse(w, 0) + n
+          case (w: String, n: Double) =>
+            cnt(w) = cnt.getOrElse(w, 0.0D) + n
         }
         cnt.toMap
     }
   }
 
-  def recEventsForUser(user_info: RDD[(String, Map[String, Int])],
+  def recEventsForUser(user_info: RDD[(String, Map[String, Double])],
                        docs_info: Seq[(String, Seq[String])]): RDD[(String, String)] = {
 
     user_info.map {
-      case (uid: String, cnt: Map[String, Int]) =>
+      case (uid: String, cnt: Map[String, Double]) =>
         val len_user = VectorOpts.calLength(cnt)
         // println(s"uid=$uid,len_user=$len_user")
         val rec_docs = docs_info.map {
@@ -100,7 +100,7 @@ object EventsOfflineProcessor {
             val len_doc = math.sqrt(kws.length)
             val dot_product = kws.map {
               w =>
-                cnt.getOrElse(w, 0)
+                cnt.getOrElse(w, 0.0D)
             }.sum
             // println(s"eid=$eid,len_doc=$len_doc,dot_product=$dot_product")
             val cos = dot_product / len_doc / len_user

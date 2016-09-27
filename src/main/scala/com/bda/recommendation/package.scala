@@ -9,11 +9,13 @@ package object recommendation {
   val is_local = false
 
   /** host and ip */
-  val host = "10.100.1.50"
+  val host = "10.1.111.15"
+//  val host = "127.0.0.1"
   val port = 8488
 
   /** data directory */
-  val data_pt = "/user/lihb/"
+//  val data_pt = "/Users/houjianpeng/Github/news-recommendation/data/" // local path
+  val data_pt = "/home/recommendation/data/" // server path
 
   /** key-words recommendation directory */
   val kw_docs_pt = s"$data_pt/docs/"
@@ -30,4 +32,11 @@ package object recommendation {
 
   /** parameters of events recommendation */
   val evt_top_k = 10
+
+  /** news recommendation directory */
+  val news_user_pt = s"$data_pt/news_user/"
+  val news_doc_pt = s"$data_pt/news_doc/"
+
+  /** parameters of news recommendation */
+  val news_top_k = 10
 }
