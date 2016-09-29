@@ -1,6 +1,6 @@
 ****
 
-##<center>新华社推荐系统</center>
+##<center>新华社推荐系统v3.0</center>
 ####<center>E-mail: houjp1992@gmail.com</center>
 
 ****
@@ -116,8 +116,11 @@ curl -X POST "http://10.100.1.50:8488/golaxy/recommend/stop"
 
 ###<a name="version">版本更新</a>
 
+*	2016/09/29
+	*	重新设计tf-idf新闻推荐系统，v3.0
+
 * 	2016/03/16
-	*	重新设计程序框架
+	*	重新设计程序框架，v2.0
 	*	添加`关键词推荐`功能
 	*	添加`事件推荐`功能
 
