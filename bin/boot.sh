@@ -15,6 +15,8 @@ source utils.sh
 source ../conf/conf.sh
 cd ${PATH_PRE}
 
+timestamp=`date +%Y-%m-%d`
+
 # Stop the port if is running
 function stop() {
 	local flag=`lsof -i:${PORT} | wc -l`
@@ -24,6 +26,7 @@ function stop() {
 		if [ 0 -ne $? ]; then
 			return 255
 		fi
+		sleep 10
 	else
 		log "INFO" "port($PORT) isn't running."
 	fi
@@ -62,4 +65,4 @@ function boot() {
 	return 0
 }
 
-boot
+boot &> ${LOG_DIR}/${timestamp}.log
