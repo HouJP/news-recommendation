@@ -10,10 +10,10 @@
 # 加载配置文件
 PATH_PRE=`pwd`
 PATH_NOW=`dirname $0`
-cd ${PATH_PRE}
+cd ${PATH_NOW}
 source utils.sh
 source ../conf/conf.sh
-cd ${PATH_NOW}
+cd ${PATH_PRE}
 
 # Stop the port if is running
 function stop() {
@@ -30,7 +30,7 @@ function stop() {
 	return 0
 }
 
-function start() {
+function run() {
 	local class="com.bda.recommendation.news.service.Boot"
 
 	${SPARK_HOME}/bin/spark-submit \
@@ -52,11 +52,11 @@ function boot() {
 		log "INFO" "stop port(${PORT}) succeed."
 	fi
 
-	start
+	run
 	if [ 0 -ne $? ]; then
-		log "INFO" "start service failed!"
+		log "INFO" "run service failed!"
 	else
-		log "INFO" "start service succeed."
+		log "INFO" "run service succeed."
 	fi
 
 	return 0
