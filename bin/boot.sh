@@ -18,7 +18,7 @@ cd ${PATH_PRE}
 # Stop the port if is running
 function stop() {
 	local flag=`lsof -i:${PORT} | wc -l`
-	if [ 0 -ne flag ]; then
+	if [ 0 -ne $flag ]; then
 		log "INFO" "port(${PORT}) is running ..."
 		curl -X POST "http://${HOST}:${PORT}/golaxy/recommend/news/stop"
 		if [ 0 -ne $? ]; then
