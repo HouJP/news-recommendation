@@ -28,51 +28,20 @@
 
 ###<a name="usage">使用说明</a>
 
-*	./boot.sh init <date> <data_dir>
-	*	说明：初始化环境
-	* 	parameter <date>: 初始化后所在的日期
-	*	parameter <data_dir>: 数据存放的根目录
-
-*	./boot.sh offline <pre_date> <date> <data_dir>
-	*	说明：更新数据集
-	*	parameter <pre_date>: 历史日期
-	*	parameter <date>: 新增数据日期
-	*	parameter <date_dir>: 数据存放的根目录
-
-*	./boot.sh online <date> <data_dir> <host> <port>
-	* 	说明：启动在线服务
-	*	parameter <date>: 新增数据日期
-	*	parameter <data_dir>: 数据存放的根目录
-	*	parameter <host>: 服务IP
-	*	parameter <port>: 服务端口
-	
-*	./merge.sh
-	*	说明：用来添加到crontab
-		*	根据当前日期执行增量式的离线计算，并重启在线服务
-		*	记录日志到 log/
+*	bin/boot.sh，功能如下：
+	*	停止之前启动的推荐服务，将之前更新的用户向量落盘
+	*	根据更新后的用户向量，启动新的推荐服务
 
 *	`新闻推荐`查询请求：
 
 ```
-curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"uid":"1000000142","doc_id":"01793009222687981568","content":"我们 交通","count":3}' "http://10.100.1.50:8124/golaxy/news/recommend"
-
-curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"uid":"1000000142","doc_id":"01793009222687981568","content":"我们 交通","count":3}' "http://10.100.1.50:8124/golaxy/oversea_news/recommend"
-```
-
-*	`新闻推荐`更新请求：
-
-```
-// 注意两条命令的url是不同的
-
-curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"dir":"/user/lihb/news_doc","filename":"candidate_news_0.txt"}' "http://10.100.1.50:8124/golaxy/news/update"
-
-curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"dir":"/user/lihb/oversea_news_doc","filename":"candidate_news_0.txt"}' "http://10.100.1.50:8124/golaxy/oversea_news/update"
+curl -X POST -H "Content-Type:appuser_id":"001","key_words":"我们:1"}' "http://10.1.111.15:8488/golaxy/recommend/news/stop"
 ```
 
 * 	`新闻推荐`停止服务：
 
 ```
-curl -X POST "http://10.100.1.50:8124/stop"
+curl -X POST "http://10.1.111.15:8488/golaxy/recommend/news/stop"
 ```
 
 *	`关键词推荐`查询请求：
@@ -97,20 +66,14 @@ curl -X POST "http://10.100.1.50:8488/golaxy/recommend/stop"
 
 ###<a name="data">数据说明</a>
 
-*	用户点击信息
-	*	路径：data/user_info
-	*	说明：数据格式从左至右分别是，用户id，新闻id，用户点击时间。字段之间使用tab键隔开。
+*	用户信息
+	*	路径：data/news_user
+	*	说明：数据格式从左至右分别是，用户id，用户关键词向量。字段之间使用tab键隔开。
 	
-*	浏览的新闻文档
-	*	路径：data/docs
-	*	说明：用户前一天浏览的新闻信息，json格式。
-
 *	候选集
 	*	路径：data/news_doc
-	*	说明：候选新闻，json格式
+	*	说明：数据格式从左至右分别是，文档id，文档关键词向量。字段之间使用tab键隔开。
 	
-*	离线处理结果文件
-	*	路径：data/cache/
 
 ****
 
