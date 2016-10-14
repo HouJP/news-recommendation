@@ -15,14 +15,13 @@
 
 ###<a name="intro">项目介绍</a>
 
-基于Spark、Spray提供新闻推荐服务（针对用户及用户当前正在浏览的新闻）。
+基于Spark、Spray提供新闻推荐服务（针对用户及用户当前正在浏览的新闻）：
 
-*	增量计算模块：每日三点启动离线计算模块，根据HDFS上的新增数据（历史新闻和用户浏览记录），增量更新词表及用户向量，并生成新的推荐模型。
-*	更新候选文档集接口：共20份候选文档集，每份2000条最新新闻，约每三小时新增2000条最新新闻，替换距离当前时间最远的2000条旧新闻，保证可以将最新新闻推荐给用户。
 *	新闻推荐接口：根据用户当前正在浏览的新闻，以及用户历史浏览记录，调用推荐模型从候选文档集中推荐topK条最新新闻。
 *	日志及中间计算结果保存：滚动窗口的形式保留一周内的更新状态，按日期存储，用于出错回滚，快速恢复到正常状态。
 
-框架如下 ![frame](https://github.com/houjp/NewsRecommendation/raw/master/img/frame.jpg)
+框架如下：
+![frame](https://github.com/houjp/NewsRecommendation/raw/master/img/frame.jpg)
 
 ****
 
@@ -35,7 +34,7 @@
 *	`新闻推荐`查询请求：
 
 ```
-curl -X POST -H "Content-Type:appuser_id":"001","key_words":"我们:1"}' "http://10.1.111.15:8488/golaxy/recommend/news/stop"
+curl -X POST -H "Content-Type:appuser_id":"001","key_words":"我们:1"}' "http://10.1.111.15:8488/golaxy/recommend/news/query"
 ```
 
 * 	`新闻推荐`停止服务：
@@ -43,36 +42,19 @@ curl -X POST -H "Content-Type:appuser_id":"001","key_words":"我们:1"}' "http:/
 ```
 curl -X POST "http://10.1.111.15:8488/golaxy/recommend/news/stop"
 ```
-
-*	`关键词推荐`查询请求：
-
-```
-curl -X POST -H "Content-Type:application/json" -H "Accept:application/json" -d '{"words":"李世石"}' "http://10.100.1.50:8488/golaxy/recommend/key-words"
-```
-
-*	`事件推荐`查询请求：
-
-```
-curl -X POST -H "Content-Type:application/json" -H "Accept:application/json" -d '{"uid":"132531345"}' "http://10.100.1.50:8488/golaxy/recommend/events"
-```
-
-*	`关键词推荐`和`事件推荐`停止服务：
-
-```
-curl -X POST "http://10.100.1.50:8488/golaxy/recommend/stop"
-```
-
 ****
 
 ###<a name="data">数据说明</a>
 
-*	用户信息
+*	用户数据
 	*	路径：data/news_user
-	*	说明：数据格式从左至右分别是，用户id，用户关键词向量。字段之间使用tab键隔开。
+	*	格式：[user_id]\t[key_word_0]:[frequency_1],[key_word_2]:[frequency_2],...
+	*	说明：从左至右分别是，用户id，用户关键词向量。
 	
 *	候选集
 	*	路径：data/news_doc
-	*	说明：数据格式从左至右分别是，文档id，文档关键词向量。字段之间使用tab键隔开。
+	*	格式：[doc_id]\t[key_word_0]:[frequency_1],[key_word_2]:[frequency_2],...
+	*	说明：数据格式从左至右分别是，文档id，文档关键词向量。
 	
 
 ****
