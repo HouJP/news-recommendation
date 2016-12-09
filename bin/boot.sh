@@ -34,7 +34,7 @@ function stop() {
 }
 
 function run() {
-	local class="com.bda.recommendation.news.service.Boot"
+	local class="com.houjp.recommendation.news.service.Boot"
 
 	${SPARK_HOME}/bin/spark-submit \
 		--master ${MASTER} \
